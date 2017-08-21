@@ -3,37 +3,30 @@
 var Twitter = require('twitter');
 var spotify = require('spotify');
 var request = require('request');
-
-//spotify client id ba8e76d10d424a80bba36fee7c6cbdad
-//spotify client secret af354c971b66413e8ee827331aeee4e1
-
-//write the code to export the data from keys.js
-//store the keys in a variable and pass it to twitter
-var config ={
-  consumer_key: 'jZ9pfbcnpxdao5xvs0CK1kXRE',
-  consumer_secret: 'Uw0VWuRxuDfYH8T0yYI9wufYsDlE5Deb9XX16GWer1aLkzV512',
-  access_token_key: '898610387955851264-JMJEurv1U33vwPj6E3AG5QTsRdGj7CY',
-  access_token_secret: 'oCNcrbqJl0dqJuuvAY3kffOy35RYf9P5G8q6X8i7lfu0h'
-};
-tweets ={};
-twit = twitter(config);
-
-tweets = twitter.get('/statuses/user_timeline.json'), {screen_name: 'onewithnature', count: 20}
-function(error, tweets) {
-  if(!error)
-  {
-
-  }
-}
-
 /*write code to take in one of the following commands
 my-tweets
 spotify-this-song
 movie-this
 do-what-it-says */
 
+
+//spotify client id ba8e76d10d424a80bba36fee7c6cbdad
+//spotify client secret af354c971b66413e8ee827331aeee4e1
+
 //node liri.js my-tweets should show my last 20 tweets
 //and when they were created in the terminal window
+
+//write the code to export the data from keys.js
+//store the keys in a variable and pass it to twitter
+var config = require('./keys');
+var mytweets = new Twitter(config);
+
+mytweets.get('statuses/user_timeline', {screen_name: 'onewithnature', count: 20}, function(err, data) {
+  console.log(data);
+});
+
+
+
 
 //node liri.js spotify-this-song '<song name here>'  This will show
 //Artists, song name, preview link of the song from spotify, album

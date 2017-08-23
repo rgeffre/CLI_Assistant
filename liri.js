@@ -1,16 +1,17 @@
-var spotify = require('spotify');
-
-/*write code to take in one of the following commands
-
-spotify-this-song
-do-what-it-says */
-
-//Require package
+//Require packages
 var Twitter = require('twitter');
+var request = require('request');
+var spotify = require('node-spotify-api');
+var fs = require('fs');
+
+//Write code using the twitter package to return 20 tweets and display them
+//in the console with the date created.
+
 //This code sets a new variable to contain the data from keys.js
 var config = require('./keys');
 //This constructor passes the data in the keys file to the twitter API
 var myTweets = new Twitter(config.twitterKeys);
+
 //my-tweets displays my last 20 tweets in the terminal window
 {
   myTweets.get('statuses/user_timeline',
@@ -26,27 +27,31 @@ var myTweets = new Twitter(config.twitterKeys);
 //node liri.js spotify-this-song '<song name here>'  This will show
 //Artists, song name, preview link of the song from spotify, album
 
-/* var spotify = require('spotify');
-var spotifyThisSong = new spotify( {
-  clientId: 'ba8e76d10d424a80bba36fee7c6cbdad',
-  clientSecret: 'af354c971b66413e8ee827331aeee4e1',
-  redirectUri: 'http://www.example.com/callback'
+
+var spotifyThisSong = new spotify ( {
+  id: 'ba8e76d10d424a80bba36fee7c6cbdad',
+  secret: 'af354c971b66413e8ee827331aeee4e1'
 });
 
-//get user input for song name
+//node liri.js do-what-it-says use the fs node package to take
+//the contents of random.txt and use it to call one of liri's
+//commands to run spotify-this-song "I want it that Way"
 
- spotify.search('type: tracks', query: ' songTitle', function(error, data, response)
-
-"name:"
-"album:"
-"artists"
-"preview_url"*/
+   spotifyThisSong.search({ type: 'track', query: 'Red Dirt Road' }, function(err, data) {
+     if (err) {
+       return console.log('Error occurred: ' + err);
+     }
+     console.log(JSON.stringify(data), null, 2);
+     console.log(data.tracks.items[0].album);
+     console.log(data.tracks.items[0].name);
+     console.log(data.tracks.items[0].preview_url);
+     console.log(data.tracks.items[0].artists[0].name);
+   };
+   If (query == null)
 
 //If no song is provided the program defaults to "The Sign" by Ace of Base
 
 
-//require the request package
-var request = require('request');
 ///store the arguments in an array
 var nodeArgs = process.argv;
 //create an empty variable to hold the movie name
@@ -84,6 +89,4 @@ request(queryUrl, function(error, response, body) {
   }}
 );
 
-//node liri.js do-what-it-says use the fs node package to take
-//the contents of random.txt and use it to call one of liri's
-//commands to run spotify-this-song "I want it that Way"
+

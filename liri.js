@@ -27,8 +27,20 @@ var myTweets = new Twitter(config.twitterKeys);
 //node liri.js spotify-this-song '<song name here>'  This will show
 //Artists, song name, preview link of the song from spotify, album
 
+var nodeArgs = process.argv;
+var spotifyThisSong = "";
 
-var spotifyThisSong = new spotify ( {
+//loop through the words in the node argument and create a for loop
+for (var i = 2; i < nodeArgs.length; i++) {
+  if (i > 2 && i < nodeArgs.length) {
+    spotifyThisSong = spotifyThisSong + "+" + nodeArgs[i];
+  }
+  else {
+    spotifyThisSong += nodeArgs[i];
+  }
+}
+
+var spotify = new spotify ( {
   id: 'ba8e76d10d424a80bba36fee7c6cbdad',
   secret: 'af354c971b66413e8ee827331aeee4e1'
 });
@@ -37,17 +49,16 @@ var spotifyThisSong = new spotify ( {
 //the contents of random.txt and use it to call one of liri's
 //commands to run spotify-this-song "I want it that Way"
 
-   spotifyThisSong.search({ type: 'track', query: 'Red Dirt Road' }, function(err, data) {
-     if (err) {
-       return console.log('Error occurred: ' + err);
-     }
-     console.log(JSON.stringify(data), null, 2);
-     console.log(data.tracks.items[0].album);
-     console.log(data.tracks.items[0].name);
-     console.log(data.tracks.items[0].preview_url);
-     console.log(data.tracks.items[0].artists[0].name);
-   };
-   If (query == null)
+spotify.search({ type: 'track', query: spotifyThisSong }, function(err, data) {
+  if (err) {
+    return console.log('Error occurred: ' + err);
+  }
+  console.log("Song Title: " + data.tracks.items[0].name);
+  console.log("Artist: " + data.tracks.items[0].artists[0].name);
+  console.log("Album Title: " + data.tracks.items[0].album.name);
+  console.log("Preview Track: " + data.tracks.items[0].preview_url);
+
+});
 
 //If no song is provided the program defaults to "The Sign" by Ace of Base
 
@@ -73,18 +84,14 @@ request(queryUrl, function(error, response, body) {
     console.log('If you haven\'t watched "Mr. Nobody," then you\n' +
         'should: http://www.imdb.com/title/tt0485947\n' +
         'It\'s on Netflix!');
-  }else {
+  }
+  else {
     if (!error && response.statusCode === 200) {
       console.log('Title:' + JSON.parse(body).Title);
       console.log('Release Year:' + JSON.parse(body).Year);
       console.log('Actors:' + JSON.parse(body).Actors);
       console.log('Country:' + JSON.parse(body).Country);
       console.log('Language:' + JSON.parse(body).Language);
-      console.log('Ratings:' + 'Source:' + 'Internet Movie Database' +
-          JSON.parse(body).Ratings);
-      console.log('Ratings:' + 'Source:' + 'Rotten Tomatoes' +
-          JSON.parse(body).Ratings);
-      console.log('Plot:' + JSON.parse(body).Plot);
     }
   }}
 );

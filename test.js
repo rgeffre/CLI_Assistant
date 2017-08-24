@@ -25,9 +25,8 @@ spotify.search({ type: 'track', query: spotifyThisSong }, function(err, data) {
   if (err) {
     return console.log('Error occurred: ' + err);
   }
-  console.log(data.tracks.items[0].name);
-  console.log(data.tracks.items[0].artists[0].name);
-  console.log(data.tracks.items[0].album.name);
-  console.log(data.tracks.items[0].preview_url);
-
+  console.log('Song Title: ' + data.tracks.items[0].name);
+  console.log('Artists: ' + data.tracks.items[0].artists[0].name);
+  console.log('Album: ' + data.tracks.items[0].album.name);
+  console.log('Song Preview: ' + data.tracks.items[0].preview_url);
 });

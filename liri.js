@@ -3,6 +3,17 @@ var Twitter = require('twitter');
 var request = require('request');
 var spotify = require('node-spotify-api');
 var fs = require('fs');
+var inquirer = require('inquirer');
+
+//Write inquirer code that allows users to select which task they want to do
+//based on selection run the corresponding code
+//If no song is provided the program defaults to "The Sign" by Ace of Base
+//if no movie title is passed in
+
+//node liri.js do-what-it-says use the fs node package to take
+//the contents of random.txt and use it to call one of liri's
+//commands to run spotify-this-song "I want it that Way"
+
 
 //Write code using the twitter package to return 20 tweets and display them
 //in the console with the date created.
@@ -39,29 +50,23 @@ for (var i = 2; i < nodeArgs.length; i++) {
     spotifyThisSong += nodeArgs[i];
   }
 }
-
+//construct to connect to api and pass in credentials
 var spotify = new spotify ( {
   id: 'ba8e76d10d424a80bba36fee7c6cbdad',
   secret: 'af354c971b66413e8ee827331aeee4e1'
 });
-
-//node liri.js do-what-it-says use the fs node package to take
-//the contents of random.txt and use it to call one of liri's
-//commands to run spotify-this-song "I want it that Way"
-
+//search for song track via spotify API
 spotify.search({ type: 'track', query: spotifyThisSong }, function(err, data) {
+  //console log any errors
   if (err) {
     return console.log('Error occurred: ' + err);
   }
-  console.log("Song Title: " + data.tracks.items[0].name);
-  console.log("Artist: " + data.tracks.items[0].artists[0].name);
-  console.log("Album Title: " + data.tracks.items[0].album.name);
-  console.log("Preview Track: " + data.tracks.items[0].preview_url);
-
+  //console log track information
+  console.log('Song Title: ' + data.tracks.items[0].name);
+  console.log('Artists: ' + data.tracks.items[0].artists[0].name);
+  console.log('Album: ' + data.tracks.items[0].album.name);
+  console.log('Song Preview: ' + data.tracks.items[0].preview_url);
 });
-
-//If no song is provided the program defaults to "The Sign" by Ace of Base
-
 
 ///store the arguments in an array
 var nodeArgs = process.argv;
@@ -80,20 +85,18 @@ for (var i = 2; i < nodeArgs.length; i++) {
 var queryUrl = "http://www.omdbapi.com/?t=" + movieThis + "&plot=short&imdb=true&tomatoes=true&apikey=40e9cece&";
 
 request(queryUrl, function(error, response, body) {
-  if (movieThis === null ) {
-    console.log('If you haven\'t watched "Mr. Nobody," then you\n' +
-        'should: http://www.imdb.com/title/tt0485947\n' +
-        'It\'s on Netflix!');
+  if (error){
+    return console.log('Error occurred: ' + error );
   }
-  else {
-    if (!error && response.statusCode === 200) {
-      console.log('Title:' + JSON.parse(body).Title);
-      console.log('Release Year:' + JSON.parse(body).Year);
-      console.log('Actors:' + JSON.parse(body).Actors);
-      console.log('Country:' + JSON.parse(body).Country);
-      console.log('Language:' + JSON.parse(body).Language);
-    }
-  }}
-);
+else {
+  if (!error && response.statusCode === 200);
+    console.log('Title:' + JSON.parse(body).Title);
+    console.log('Release Year:' + JSON.parse(body).Year);
+    console.log('Actors:' + JSON.parse(body).Actors);
+    console.log('Country:' + JSON.parse(body).Country);
+    console.log('Language:' + JSON.parse(body).Language);
+  }
+});
+
 
 
